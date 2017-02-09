@@ -1,0 +1,191 @@
+//This is my code
+//Andrea Ezeobiejesi
+//CS366
+#include<stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <utime.h>
+int catFile();
+int copyFile();
+int renameFile();
+int delete();
+int zeroLength();
+int appendFile();
+int display100(); //tail command ... tail -n  4 commmand;; fseek(fin, -2, SEEK_CUR) 
+int changePermisson();
+int changeTime();
+int goToNext();
+int quit(); 
+void printFile();
+//Command line interface
+//Read files from command line and parse user commands
+/* Based on the command, call the appropriate function */
+int main(int argc, char *argv[])
+{
+  char file[50];
+  FILE* fd;
+  char command = ' ';
+  printf("argc = %d\n", argc);
+  for(int i = 1; i < argc; ++i)
+  {
+    printf("File %d is: %s\n", i, argv[i]);
+    strcpy(file,argv[1]);
+    printf("File %s: command: ", argv[i]);
+    scanf("%c", &command);
+    printf("THE COMMAND IS: %c\n", command);
+    while(command != 'q')
+    {
+      //strcpy(command, argv[2]);     
+      if(command == 'c')
+      {
+        catFile(file); 
+      }
+      else if(command == 'd')
+      {
+        copyFile(file);
+      }
+      else if(command =='r')
+      {
+        renameFile(file);
+      }
+      else if(command =='u')
+      {
+        delete(file);
+      }
+      else if(command =='t')
+      {
+        zeroLength(file);
+      }
+      else if(command == 'a')
+      {
+      }
+      else if(command =='l')
+      {
+      }
+      else if(command =='m')
+      {
+      }
+      else if(command =='x')
+      {
+      }
+      else if(command =='n')
+      {
+      }
+      else
+      {
+        printf("Not a valid command! Please try again or type 'q' to quit.\n");
+      }
+   // exit(0);
+  return 0;
+    }
+  }
+}   
+
+//Print file read in from command line
+//WORKS!! :) 
+void printFile(char* file)
+{
+  printf("The file you entered is %s\n", file);
+}
+
+/**
+  * List the current file to /dev/tty
+  */
+int catFile(char* file)
+{
+  FILE *commandLine = fopen("/dev/tty", "w");
+  fprintf(commandLine, "YOU DID IT! Current file: %s\n", file);
+  return 0;
+}
+
+//Make a copy of the current file
+int copyFile(char* file)
+{
+  char fileStream;
+  char destination[50] = " ";
+  FILE *sourceFile;
+  FILE *copiedFile;
+  sourceFile = fopen(file, "r"); //Open file to copy
+  
+  printf("Enter destination name: ");
+  scanf("%s", destination);
+  printf("Destination file: %s\n", destination);
+  copiedFile = fopen(destination, "w+");  
+
+//  fprintf(copiedFile, "This is testing for fprintf...\n"); //WORKS
+//  fputs("This is testing for fputs...\n", copiedFile); //WORKS
+  while(1)
+  {
+    if((fileStream = fgetc(sourceFile)) == EOF) 
+    {
+      break;
+    }
+    else
+    {
+      fputc(fileStream, copiedFile);
+    }
+  } 
+  printf("Your file was successfully copied!!!\n");   
+   
+  fclose(sourceFile);
+  fclose(copiedFile);
+    
+  return 0;
+} 
+
+int renameFile(char* oldFile)
+{
+  int success;
+  char newFile [50]; 
+  printf("Current filename: %s\n", oldFile);
+  
+  printf("Enter new filename: ");
+  scanf("%s", newFile);
+  printf("New file name: %s\n", newFile);
+  success = rename(oldFile, newFile);
+  if(success == 0) 
+  {
+    printf("File renamed successfully\n");
+  }
+  else 
+  {
+    printf("Error: unable to rename the file\n");
+  }
+  return 0;
+}
+
+int delete(char* file)
+{
+  int DELETED = 0;
+ 
+  printf("Name of file to delete: %s\n", file);
+  DELETED = remove(file);
+  if(DELETED == 0)
+  {
+    printf("The file %s was successfully deleted!! :)\n", file);
+  }
+  else
+  {
+    fprintf(stderr, "There was an error deleting the file %s.\n", file);
+  }
+}
+
+int zeroLength(char* file)
+{
+  int ZEROED = 0;
+  ZEROED = truncate(file, 0);
+  if(ZEROED == 0)
+  {
+    printf("Your file %s was cleared! :)\n", file);
+  }
+  else
+  {
+    printf("There was an error while clearing the file %s\n", file);
+  }
+}
