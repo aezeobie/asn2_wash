@@ -26,20 +26,20 @@ Test Plan
 2.	Test 2:
 	Input: 
 	Files: b.txt 
-	Commands: file: b – ‘c’, ‘a, “a.txt”’;
+	Commands: file: b – ‘c’, ‘a, “a.txt”’, ‘q’
 	Expected Output:
 	The current file is b.txt
 	Your file has been successfully appended!
 	Explanation:  This test will check the appendFile function and ensure that it appends content from one file to another file.
 3.	Test 3:
 	Input: 
-	Files: a.txt b.txt d.txt
-	Commands: file: a – ‘d’, ‘r, “aa.txt”’, ’u’, ‘q’
+	Files: a.txt 
+	Commands: file: a – ‘d, ‘d.txt’’, ‘r, “aa.txt”’, ‘q’
 	Expected Output:
 	The current file is a.txt
 	Your file has been successfully copied!
 	$ll = aa.txt
-	Your file has been successfully deleted!
+
 	Explanation:  This test will make sure that the program can perform multiple IO operations on a single file.
 4.	Test 4:
 	Input: 
