@@ -160,6 +160,7 @@ int renameFile(char* oldFile)
   }
   else 
   {
+    perror("rename");
     printf("Error: unable to rename the file\n");
   }
   return 0;
@@ -182,6 +183,7 @@ int delete(char* file)
   }
   else
   {
+    perror("remove");
     fprintf(stderr, "There was an error deleting the file %s.\n", file);
   }
 }
@@ -201,6 +203,7 @@ int zeroLength(char* file)
   }
   else
   {
+    perror("truncate");
     printf("There was an error while clearing the file %s\n", file);
   }
 }
@@ -257,6 +260,7 @@ int displayTail(char* file)
   int read_byte;
   if(pointer == NULL)
   {
+    perror("fopen");
     printf("The file could not be read!!");
   }
   else
