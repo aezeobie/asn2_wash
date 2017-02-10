@@ -1,0 +1,64 @@
+Andrea Ezeobiejesi
+2/10/17
+CS366 01
+Assignment #2
+	
+Analysis
+The problem is that Mr. Krabs needs a program that can help him clean and organize his files. The program, wash, reads in file names from the command line and processes them according to commands passed in by the user. There are 11 available commands so the program must be able to store the files that are read in and use a loop to prompt the user to enter commands to process those files. When the user types ‘n’ the loop will jump to the next file until all of the files are processed.
+What to ask:
+•	How will I keep track of the files read in from user input?
+•	How will I organize my functions?
+•	Is it possible to call vi commands from within a C program, such as chmod and tail?
+•	Does C have default functions for any of these commands, such as a rename function?
+
+Design
+In my code, I have a main function that deals with user input and calls the method corresponding to a specific command. In my main function, I used a while loop to store the files read in from the command line. I then used a for loop and a while loop to iterate though the files, prompting the user to enter commands to process each file until the user moves to the next file or quits. An extended if-else branch checks the user commands against the available commands and calls the function corresponding to that call, passing the function a character pointer as a parameter.  In each command function, I either created a FILE to read/write/append to or I called IO functions to produce the necessary output. 
+Test Plan
+1.	Test 1:
+	Input: 
+	Files: a.txt b.txt c.txt
+	Commands: file: a –‘c’, ‘n’; file: b –‘c’, ‘n’; File: c –‘c’, ‘q’
+	Expected Output:
+	The current file is a.txt
+	The current file is b.txt
+	The current file is c.txt
+	Explanation:  This test will make sure that one of the simpler functions, catFile, is running properly. It will also check that ‘n’ moves to the next file.
+2.	Test 2:
+	Input: 
+	Files: b.txt 
+	Commands: file: b – ‘c’, ‘a, “a.txt”’;
+	Expected Output:
+	The current file is b.txt
+	Your file has been successfully appended!
+	Explanation:  This test will check the appendFile function and ensure that it appends content from one file to another file.
+3.	Test 3:
+	Input: 
+	Files: a.txt b.txt d.txt
+	Commands: file: a – ‘d’, ‘r, “aa.txt”’, ’u’, ‘q’
+	Expected Output:
+	The current file is a.txt
+	Your file has been successfully copied!
+	$ll = aa.txt
+	Your file has been successfully deleted!
+	Explanation:  This test will make sure that the program can perform multiple IO operations on a single file.
+4.	Test 4:
+	Input: 
+	Files: b.txt c.txt
+	Commands: file: b – ‘l’, ‘u’, ‘n’; file: c –‘t’, ‘q’
+	Expected Output:
+	The last 100 bytes of file b.txt
+	Your file has been deleted successfully!
+	The contents of file c.txt have been cleared!
+	Explanation:  This test will run more advanced IO operations on more than 1 file.
+5.	Test 5:
+	Input: 
+	Files: d.txt
+	Commands: file: d – ‘c’, ‘m, 0777’, ‘x’
+	Expected Output:
+	The current file is d.txt
+	The permissions for file d.txt are: 0777
+	The access time of the file is now the current time.
+	Explanation:  This test check for the proper use of Linux commands withing the C program. 
+
+
+
