@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
     do   
     {
       printf("File %s: command: ", fileArray[j]);
-      scanf("%c", &command);   
+      scanf(" %c", &command);   
       if(command == 'c')
       {
         catFile(file); 
